@@ -1,10 +1,9 @@
-package cours;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Scanner;
 import java.util.Random;
-public class cours {
+public class NumberGame {
 
 	public static void main(String[] args) {
 		try{
@@ -64,7 +63,7 @@ public class cours {
 							}
 							System.out.println("~" +name+ " est à " +score+ " point(s) !~");
 							bw.write("   --- " +name+ " est a  " +score+ " point(s) ---\r\n");
-							attempt = 0;
+							attempt1 = 0;
 						}
 						else if (guess < number)
 						{
@@ -102,30 +101,17 @@ public class cours {
 					
 					attempt = 0;
 					}
-			}	
+			}
 		do {
 			System.out.println("Voulez-vous continuer ? O/N");
 			loop = sc.nextLine().charAt(0);
 		}while (loop != 'O' && loop != 'N');
 	}while (loop == 'O');
-		System.out.println("Merci d'avoir joué " +name+ ", " +score+ " point(s) pour toi contre " +scoregm+ " point(s) pour moi.");
-		if (score > scoregm)
-		{
-			System.out.println("Tu as gagné mon grand, tu m'a vaincu !");
-			bw.write(name+ "a gagné !\r\n");
-		}
-		else if (score < scoregm)
-		{
-			System.out.println("J'ai gagné petite sous-merde, à plus !");
-			bw.write("G-E Number Game a gagné !\r\n");
-		}
-		else
-		{
-			System.out.println("C'est une égalité... moi qui pensais t'écraser !");
-			bw.write("C'est une égalitée.\r\n");
-		}
+		GPointCalc scorend = new GPointCalc();
+		System.out.println(scorend.finalScore(name, score, scoregm));
 		bw.close();
-        }
+        sc.close();
+		}
         catch(Exception e){
             System.out.println(e);
 	}
