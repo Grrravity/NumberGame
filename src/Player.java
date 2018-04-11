@@ -28,12 +28,13 @@ public void setScoreBasis(int base) {
 	int basecalc = 0; 
 	if (base >= 10)
 		basecalc = 1;
-	else if (base < 10 && base > 5)
+	else if (base < 10 && base >= 5)
 		basecalc = 3;
 	else
 		basecalc = 5;
 	scoreBasis_ = basecalc;
 }
+	//set player's name
 public void setPlayerName(String pName) {
 	playerName_ = pName;
 }
@@ -42,4 +43,5 @@ public int addPlayerScore() {
 	scorePlayer_ =+ scoreBasis_;
 	return scorePlayer_;
 }
+
 }

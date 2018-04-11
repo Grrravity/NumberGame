@@ -1,29 +1,34 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+//import java.io.BufferedWriter;
+//import java.io.File;
+//import java.io.FileWriter;
 import java.util.Scanner;
 import java.util.Random;
 public class NumberGame {
 
 	public static void main(String[] args) {
-		try{
-            String content = "G-E Number Game score sheet";
-            String path="G:\\Utilisateur\\Grrravity\\Bureau\\Grrravity Business\\Eclipse\\cours\\src\\scoresheet.txt";
-            File file = new File(path);
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
-		Random rand = new Random();
+		// try{
+           // String path="C:\\Users\\julie\\Desktop\\OC\\NumberGame\\src\\scoresheet.txt";
+            // File file = new File(path);
+            // if (!file.exists()) {
+            //    file.createNewFile();
+            //}
+            //BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
+            
+            // setting class var
+        Random rand = new Random();
 		int guess, attempt, attemptscore, score = 0, scoregm = 0;
 		char loop = 'O';
 		String name;
+		
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Bienvenue dans le G-E Numbe"
-				+ "r Game !\n-----------------------------------");
-		System.out.println("Vous devez trouver le nombre auquel je pense...\nPour commencer, Quel est votre nom ? ---");
+		System.out.println("Bienvenue dans le G-E Number Game !\n-----------------------------------"
+			+ "\nVous devez trouver le nombre auquel je pense...\nPour commencer, Quel est votre nom ? ---");
 		name = sc.nextLine();
-        bw.write(" ---- G-E Number Game score sheet ---- \r\n");
+		
+			//creating players (game itself + user)
+		Player player = new Player(name, 0, 0);
+		Player game = new Player("G-E Number Game", 0, 0);
+        //bw.write(" ---- G-E Number Game score sheet ---- \r\n");
 		do {
 			int number = rand.nextInt(34) + 1;
 			System.out.println("J'ai choisi un nombre entre 1 et 35, vous devez le deviner.\n"
@@ -31,6 +36,8 @@ public class NumberGame {
 					+ "/// moins vous demandez de tentatives, plus vous gagnez de point !///");
 			attempt = sc.nextInt();
 			attemptscore = attempt;
+			game.setScoreBasis(attempt);
+			player.setScoreBasis(attempt);
 			sc.nextLine();
 			for (int attempt1 = attempt; attempt1 > 0; attempt--)
 			{
@@ -47,22 +54,22 @@ public class NumberGame {
 							{
 								score++;
 								System.out.println("///" +name+ " marque 1 point. ///");
-								bw.write( name+ " + 1");
+								//bw.write( name+ " + 1");
 							}
 							else if (attemptscore > 5)
 							{
 								score += 5;
 								System.out.println("///" +name+ " marque 5 points ! ///");
-								bw.write( name+ " + 5");
+								//bw.write( name+ " + 5");
 							}
 							else
 							{
 								score += 10;
 								System.out.println("///" +name+ " marque 10 points ! ///");
-								bw.write( name+ " + 10");
+								//bw.write( name+ " + 10");
 							}
 							System.out.println("~" +name+ " est à " +score+ " point(s) !~");
-							bw.write("   --- " +name+ " est a  " +score+ " point(s) ---\r\n");
+							//bw.write("   --- " +name+ " est a  " +score+ " point(s) ---\r\n");
 							attempt1 = 0;
 						}
 						else if (guess < number)
@@ -82,24 +89,24 @@ public class NumberGame {
 					{
 						scoregm++;
 						System.out.println("/// G-E Number Game marque 1 point. ///");
-						bw.write( "G-E Number Game + 1");
+						//bw.write( "G-E Number Game + 1");
 					}
 					else if (attemptscore > 5)
 					{
 						scoregm += 5;
 						System.out.println("/// G-E Number Game marque 5 points ! ///");
-						bw.write( "G-E Number Game + 5");
+						//bw.write( "G-E Number Game + 5");
 					}
 					else
 					{
 						scoregm += 10;
 						System.out.println("/// G-E Number Game marque 10 points ! ///");
-						bw.write( "G-E Number Game + 10");
+						//bw.write( "G-E Number Game + 10");
 					}
 					System.out.println("~ G-E Number Game est à " +scoregm+ " point(s) !~");
-					bw.write("   --- G-E Number Game est a  " +scoregm+ " point(s) ---\r\n");
-					
-					attempt = 0;
+					//bw.write("   --- G-E Number Game est a  " +scoregm+ " point(s) ---\r\n");
+				
+					attempt1 = 0;
 					}
 			}
 		do {
@@ -108,12 +115,12 @@ public class NumberGame {
 		}while (loop != 'O' && loop != 'N');
 	}while (loop == 'O');
 		GPointCalc scorend = new GPointCalc();
-		System.out.println(scorend.finalScore(name, score, scoregm));
-		bw.close();
+		System.out.println(scorend.finalScore(player.getPlayerName(),player.getPlayerScore(), game.getPlayerScore()));
+		//bw.close();
         sc.close();
-		}
-        catch(Exception e){
-            System.out.println(e);
-	}
+		//}
+        //catch(Exception e){
+          //  System.out.println(e);
+	//}
 	}
 }
