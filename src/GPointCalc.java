@@ -3,21 +3,22 @@ import java.io.File;
 import java.io.FileWriter;
 
 public class GPointCalc {
-	private BufferedWriter bw;	
+private BufferedWriter bw;	
 		
 public GPointCalc() {
 
 }
-public void sendToBuffer(int end,String line) {
+ // write into buffer. If boolean is true, then it write and close the buffer
+public void sendToBuffer(boolean end,String line) {
 	try{
-        String path="C:\\Users\\julie\\Desktop\\OC\\NumberGame\\src\\scoresheet.txt";
+		String path="C:\\Users\\julie\\Desktop\\OC\\NumberGame\\src\\scoresheet.txt";
         File file = new File(path);
         if (!file.exists()) {
             file.createNewFile();
         }
         bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
         
-        if (end == 0) {
+        if (end = false) {
         bw.write (line);
         }
         else {
@@ -31,26 +32,48 @@ public void sendToBuffer(int end,String line) {
     }
 }
 
-public String finalScore (String name, int score, int game)
-{
+ // 
+public int guessNumberResult(int guess, int number, int attempt, int scoreBase, int playerScore, String playerName) {
+	int guessResult = 0;
+	if (attempt > 0 && number == guess)
+	{
+		System.out.println("Bien trouvé ! c'est bien " +number+ " !!");
+		// score++;
+		System.out.println("/// " +playerName+ " marque " +scoreBase+ " point. ///");
+		sendToBuffer(false, playerName+ "marque " +scoreBase+ "point(s).");
+		guessResult = 1;
+	}
+	else if (attempt > 0 && number > guess)
+	{
+		System.out.println("Mon nombre est plus grand que ça voyons !");
+	}
+	else 
+	{
+		System.out.println("Holaaaa tout doux ! Mon nombre est plus petit !");
+	}
+	
+	return guessResult;
+	
+}
+
+public String finalScore (String name, int score, int game) {
 	
 	String fscore = new String();
-	GPointCalc buffsend = new GPointCalc();
 	System.out.println("Merci d'avoir joué " +name+ ", " +score+ " point(s) pour toi contre " +game+ " point(s) pour moi.");
 	if (score > game)
 	{
 		fscore = "Tu as gagné mon grand, tu m'a vaincu !";
-		buffsend.sendToBuffer(1, name+ " a gagné !\r\n");
+		sendToBuffer(true, name+ " a gagné !\r\n");
 	}
 	else if (score < game)
 	{
 		fscore = "J'ai gagné petite sous-merde, à plus !";
-		buffsend.sendToBuffer(1, "G-E Number Game a gagné !\r\n");
+		sendToBuffer(true, "G-E Number Game a gagné !\r\n");
 	}
 	else
 	{
 		fscore = "C'est une égalité... moi qui pensais t'écraser !";
-		buffsend.sendToBuffer(1, "C'est une égalitée.\r\n");
+		sendToBuffer(true, "C'est une égalitée.\r\n");
 	}
 	return fscore;
 }
