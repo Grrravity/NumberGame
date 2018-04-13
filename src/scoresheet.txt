@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 pwal a gagné !
+=======
+jean a gagné !
+>>>>>>> cf8ca96814d9b134fad96832486c858d0ea5bf92
