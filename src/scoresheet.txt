@@ -1,5 +1,5 @@
-<<<<<<< HEAD
-pwal a gagné !
-=======
-jean a gagné !
->>>>>>> cf8ca96814d9b134fad96832486c858d0ea5bf92
+ ---- G-E Number Game score sheet ---- 
+
+G-E Number Game +5
+   --- G-E Number Game est a  5 point(s) ---
+G-E Number Game a gagné !   (--- 0 à 5 ---

@@ -1,6 +1,3 @@
-//import java.io.BufferedWriter;
-//import java.io.File;
-//import java.io.FileWriter;
 import java.util.Scanner;
 import java.util.Random;
 public class NumberGame {
@@ -8,34 +5,37 @@ public class NumberGame {
 	public static void main(String[] args) {
 
         Random rand = new Random();
-		int guess, attempt, attemptscore, score = 0, scoregm = 0;
+		int guess, attempt;
 		char loop = 'O';
 		String name;
-		GPointCalc buffSend = new GPointCalc();
 		Scanner sc = new Scanner(System.in);
+		GPointCalc useCalc = new GPointCalc();
 		
+		//discard scoresheet.txt content
+		useCalc.clearScoresheet();
+		
+		//Game starting
 		System.out.println("Bienvenue dans le G-E Number Game !\n-----------------------------------"
 			+ "\nVous devez trouver le nombre auquel je pense...\nPour commencer, Quel est votre nom ? ---");
-		buffSend.sendToBuffer(false, " ---- G-E Number Game score sheet ---- \r\n");
+		useCalc.sendToBuffer(false, " ---- G-E Number Game score sheet ---- \r\n");
 		name = sc.nextLine();
 		
-			//creating players (game + user)
+		//creating players (game + user)
 		Player player = new Player(name, 0, 0);
 		Player game = new Player("G-E Number Game", 0, 0);
 		
+		//initialize new round
 		do {
 			int number = rand.nextInt(34) + 1;
 			System.out.println("J'ai choisi un nombre entre 1 et 35, vous devez le deviner.\n"
 					+ "En combien de coup pensez-vous y arriver\n"
 					+ "/// moins vous demandez de tentatives, plus vous gagnez de point !///");
 			attempt = sc.nextInt();
-			attemptscore = attempt;
 			game.setScoreBasis(attempt);
 			player.setScoreBasis(attempt);
 			sc.nextLine();
-			GPointCalc guessing = new GPointCalc();
 			
-			
+			//main loop for number guessed
 			for (int attempt1 = attempt; attempt1 > 0; attempt--)
 			{
 				if (attempt > 0)
@@ -45,36 +45,17 @@ public class NumberGame {
 					guess = sc.nextInt();
 					sc.nextLine();
 					
-					if (guessing.guessNumberResult(guess, number, attempt, player.getScoreBase(),player.getPlayerScore(),player.getPlayerName()) == 1) {
+					//loop when attempt is over 0, provides + / - tip and winning sentences
+					if (useCalc.guessNumberResult(guess, number, attempt, player.getScoreBase(),player.getPlayerScore(),player.getPlayerName()) == 1) {
 						player.addPlayerScore();
 						attempt1 = 0;
 					}
 				}
+				//manage the case when player loose the round
 				else 
 					{
-					System.out.println("Ahhhh c'est dommage... Tu n'as plus d'éssais ! j'ai gagné !");
-					System.out.println("La réponse était pourtant simple... c'était évidement " +number+ "!!" );
-					if (attemptscore >= 10)
-					{
-						scoregm++;
-						System.out.println("/// G-E Number Game marque 1 point. ///");
-						//bw.write( "G-E Number Game + 1");
-					}
-					else if (attemptscore > 5)
-					{
-						scoregm += 5;
-						System.out.println("/// G-E Number Game marque 5 points ! ///");
-						//bw.write( "G-E Number Game + 5");
-					}
-					else
-					{
-						scoregm += 10;
-						System.out.println("/// G-E Number Game marque 10 points ! ///");
-						//bw.write( "G-E Number Game + 10");
-					}
-					System.out.println("~ G-E Number Game est à " +scoregm+ " point(s) !~");
-					//bw.write("   --- G-E Number Game est a  " +scoregm+ " point(s) ---\r\n");
-				
+					useCalc.guessLoosing(number, game.getScoreBase(), game.getPlayerScore());
+					game.addPlayerScore();
 					attempt1 = 0;
 					}
 			}
@@ -82,10 +63,10 @@ public class NumberGame {
 			System.out.println("Voulez-vous continuer ? O/N");
 			loop = sc.nextLine().charAt(0);
 		}while (loop != 'O' && loop != 'N');
-	}while (loop == 'O');
-		GPointCalc scorend = new GPointCalc();
+		}while (loop == 'O');
 		
-		System.out.println(scorend.finalScore(player.getPlayerName(), player.getPlayerScore(), game.getPlayerScore()));
+		//giving final score + the result of the game
+		System.out.println(useCalc.finalScore(player.getPlayerName(), player.getPlayerScore(), game.getPlayerScore()));
         sc.close();
 	}
 }
